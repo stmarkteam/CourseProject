@@ -19,7 +19,10 @@ int main(){
 			if (event.type == Event::Closed)
 				game.close();
 		}
-
+		if (Keyboard::isKeyPressed(Keyboard::Left)) s.move(-0.1,0);
+		if (Keyboard::isKeyPressed(Keyboard::Right)) s.move(0.1,0);
+		if (Keyboard::isKeyPressed(Keyboard::Up)) s.move(0,-0.1);
+		if (Keyboard::isKeyPressed(Keyboard::Down)) s.move(0,0.1);
 		game.clear(Color::White);
 		game.draw(s);
 		game.display();
