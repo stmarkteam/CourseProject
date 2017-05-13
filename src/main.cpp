@@ -17,8 +17,8 @@ String TileMap[H] = {
 "B0                   0    BBB    B BB  B",
 "BBB                 BBB          B0    B",
 "B      BB      BB                BB    B",
-"B     B  B     BB          0           B",
-"B 0  B    B    BB         BB           B",
+"B     B        BB          0           B",
+"B 0  B         BB         BB           B",
 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 
 }; 
@@ -38,11 +38,14 @@ PLAYER(Texture &image){
 	dx=dy=0.1;
 	currentFrame = 0;
    }
+
 void update(float time){	
 	rect.left += dx * time;
+	CollisionX();
 	if (!onGround) dy=dy+0.0005*time;
 	rect.top += dy*time;
 	onGround=false;
+	CollisionY();
 	currentFrame += 0.005*time;
 	if (currentFrame > 6) currentFrame -=6 ;
 	if (dx>0) sprite.setTextureRect(IntRect(40*int(currentFrame),244,40,50));
@@ -55,8 +58,34 @@ void update(float time){
 	sprite.setPosition(rect.left, rect.top);
 	dx=0;
    }
-};
 
+void CollisionX(){
+	for (int i = rect.top/32 ; i<(rect.top+rect.height)/32; i++)
+	for (int j = rect.left/32; j<(rect.left+rect.width)/32; j++){
+		if (TileMap[i][j]=='B'){ 
+	        	if (dx>0) rect.left =  j*32 - rect.width; 
+			if (dx<0) rect.left =  j*32 + 32;
+		}
+	}
+}
+
+void CollisionY(){
+	for (int i = rect.top/32 ; i<(rect.top+rect.height)/32; i++)
+	for (int j = rect.left/32; j<(rect.left+rect.width)/32; j++){
+		if (TileMap[i][j]=='B'){ 
+	        	if (dy>0){
+				rect.top =  i*32 - rect.height; 
+				dy=0;
+				onGround = true;
+			}
+			if (dy<0){
+				rect.top =  i*32 + 32;
+				dy=0;
+				}
+			}
+		}
+	}
+};
 int main(){
 	RenderWindow game(VideoMode(600, 400), "Game");
 	
@@ -77,11 +106,12 @@ int main(){
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left))p.dx = -0.1;
 		if (Keyboard::isKeyPressed(Keyboard::Right))p.dx = 0.1;
-		if (Keyboard::isKeyPressed(Keyboard::Up)) 
+		if (Keyboard::isKeyPressed(Keyboard::Up)){ 
 		if (p.onGround){
-				p.dy=-0.35;
+				p.dy=-0.4;
 				p.onGround=false;
 			}
+		}
 		p.update(time);
 		game.clear(Color::White);
 		for (int i=0; i<H; i++)
@@ -97,4 +127,4 @@ int main(){
 	}
 	return 0;
 }
-
+	
