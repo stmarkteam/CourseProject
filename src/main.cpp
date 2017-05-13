@@ -2,8 +2,26 @@
 
 using namespace sf;
 
-int ground = 150;
+int ground = 304;
+const int H = 13;
+const int W = 40;
 
+String TileMap[H] = {
+
+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+"B                                B     B",
+"B                                B 0   B",
+"B                                B BB  B",
+"B                                B     B",
+"B                          0  BBBB 0 BBB",
+"B0                   0    BBB    B BB  B",
+"BBB                 BBB          B0    B",
+"B      BB      BB                BB    B",
+"B     B  B     BB          0           B",
+"B 0  B    B    BB         BB           B",
+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+
+}; 
 class PLAYER {
 
 public:
@@ -47,6 +65,7 @@ int main(){
 	float currentFrame = 0;
 	PLAYER p(t);
 	Clock clock;
+	RectangleShape rectangle( Vector2f(32,32));
 	while (game.isOpen()){
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
@@ -65,6 +84,14 @@ int main(){
 			}
 		p.update(time);
 		game.clear(Color::White);
+		for (int i=0; i<H; i++)
+		for (int j=0; j<W ; j++){ 
+			if (TileMap[i][j]=='B') rectangle.setFillColor(Color::Green);
+			if (TileMap[i][j]=='0') rectangle.setFillColor(Color::Red);
+			if (TileMap[i][j]==' ') continue;
+			rectangle.setPosition(j*32,i*32) ; 
+		        game.draw(rectangle);
+	       	 }
 		game.draw(p.sprite);
 		game.display();
 	}
