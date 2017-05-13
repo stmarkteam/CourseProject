@@ -2,6 +2,7 @@
 
 using namespace sf;
 
+float offsetX=0, offsetY=0;
 int ground = 304;
 const int H = 13;
 const int W = 40;
@@ -22,6 +23,7 @@ String TileMap[H] = {
 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 
 }; 
+
 class PLAYER {
 
 public:
@@ -55,7 +57,7 @@ void update(float time){
 		dy=0;
 		onGround = true;
 	}
-	sprite.setPosition(rect.left, rect.top);
+	sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
 	dx=0;
    }
 
@@ -83,6 +85,7 @@ void Collision(int dir){
   		}
 	}
 };
+
 int main(){
 	RenderWindow game(VideoMode(600, 400), "Game");
 	
@@ -110,13 +113,17 @@ int main(){
 			}
 		}
 		p.update(time);
+
+		if (p.rect.left>300) offsetX = p.rect.left - 300;
+        	offsetY = p.rect.top - 200;
+
 		game.clear(Color::White);
 		for (int i=0; i<H; i++)
 		for (int j=0; j<W ; j++){ 
 			if (TileMap[i][j]=='B') rectangle.setFillColor(Color::Green);
 			if (TileMap[i][j]=='0') rectangle.setFillColor(Color::Red);
 			if (TileMap[i][j]==' ') continue;
-			rectangle.setPosition(j*32,i*32) ; 
+			rectangle.setPosition(j*32-offsetX,i*32 - offsetY) ; 
 		        game.draw(rectangle);
 	       	 }
 		game.draw(p.sprite);
