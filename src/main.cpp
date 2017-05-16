@@ -11,9 +11,9 @@ String TileMap[H] = {
 
 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 "B                                B     B",
-"B                                B 0   B",
-"B                                B BB  B",
-"B                                B     B",
+"B                                  0   B",
+"B                                  BB  B",
+"B                                      B",
 "B                          0  BBBB 0 BBB",
 "B0                   0    BBB    B BB  B",
 "BBB                 BBB          B0    B",
@@ -89,12 +89,13 @@ void Collision(int dir){
 int main(){
 	RenderWindow game(VideoMode(600, 400), "Game");
 	
-	Texture t;
+	Texture t, m;
 	t.loadFromFile("fang.png");
+	m.loadFromFile("wq.png");
+	Sprite tile(m);
 	float currentFrame = 0;
 	PLAYER p(t);
 	Clock clock;
-	RectangleShape rectangle( Vector2f(32,32));
 	while (game.isOpen()){
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
@@ -107,8 +108,8 @@ int main(){
 		if (Keyboard::isKeyPressed(Keyboard::Left))p.dx = -0.1;
 		if (Keyboard::isKeyPressed(Keyboard::Right))p.dx = 0.1;
 		if (Keyboard::isKeyPressed(Keyboard::Up)){ 
-		if (p.onGround){
-				p.dy=-0.4;
+			if (p.onGround){
+				p.dy=-0.35;
 				p.onGround=false;
 			}
 		}
@@ -120,11 +121,11 @@ int main(){
 		game.clear(Color::White);
 		for (int i=0; i<H; i++)
 		for (int j=0; j<W ; j++){ 
-			if (TileMap[i][j]=='B') rectangle.setFillColor(Color::Green);
-			if (TileMap[i][j]=='0') rectangle.setFillColor(Color::Red);
+			if (TileMap[i][j]=='B') tile.setTextureRect(IntRect(160,32,32,32));
+			if (TileMap[i][j]=='0') tile.setTextureRect(IntRect(160,256,32,32));
 			if (TileMap[i][j]==' ') continue;
-			rectangle.setPosition(j*32-offsetX,i*32 - offsetY) ; 
-		        game.draw(rectangle);
+			tile.setPosition(j*32-offsetX,i*32 - offsetY) ;
+		        game.draw(tile);
 	       	 }
 		game.draw(p.sprite);
 		game.display();
