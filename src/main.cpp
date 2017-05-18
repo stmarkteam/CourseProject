@@ -4,30 +4,31 @@ using namespace sf;
 
 float offsetX=0, offsetY=0;
 
-const int H = 17;
+const int H = 19;
 const int W = 133;
 
 String TileMap[H] = {
 
 
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"0                                                                                                                                  0",
-"0                                                                                                                                  0",
-"0                                                                                                                                  0",
-"0           PPPPP                        P                                                                                         0",
-"0      PPPPP                                                                                                                       0",
-"0                         PPPPP                                                                                                    0",
-"0                                    P                                                                                             0",
-"0r  P             PPPPP                                                                                                            0",
-"0P                                          P                                                                                      0",
-"0 P                                                                                                                                0",
-"0                                                                                                                                  0",
-"0    PPP                                          P                                                                                0",
-"0       P                                              P                                                                           0",
-"PqqqqqPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPqqqqqqqqqqqqqqqqqqqqqPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPqqqqqqqqqqqqqqqqqqqqqqP",
+"                                                                                                                                    ",
+"                                        r                                  000000000000000000000000000000000000                   r ",
+"0000000000000000000000000000000000000000ZZ0000000000000000000000000000000000                                  0000000000000000000ZZ0",
+"0                                                     PP                                                            PPPP           0",
+"0r                    r                              PPr                                                               PP          0",
+"0ww                                                 PP                                                                 PP         P0",
+"0          r   PPP                      P          PP       PPPP     Pnnn       P              P                     r P         P 0",
+"0        PPPPP              r                       PP r                                 P         P    r           PPP      PP    0",
+"0     P                   PPPPP                      PPPP          P      P  P      P                   P   P                      0",
+"0                   r                P                                       wqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqw             PP       0",
+"0r                PPPPP                                          P           wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww   P                  0",
+"0P  P                                       P                                                               Z       r  r           0",
+"0                         w  r    P                         PP                            r          r      Z      PPPPPP          0",
+"0    P                    w            r                   PPPP                                             Z                      0",
+"0               ww        w           PP         P        PPPPPP                          w          w      Z                     r0",
+"0      P        ww        wrrw     P                 P   PPPPPPPP          ww                            w rw  P   r      P      PP0",
+"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw                            wwwwqqqqqqPPPPPPPPqqqqqqqqq",
+"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwqqqqqqqwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
 "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
-"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
-
 }; 
 
 class PLAYER {
@@ -65,7 +66,7 @@ void update(float time){
 void Collision(int dir){
 	for (int i = rect.top/32 ; i<(rect.top+rect.height)/32; i++)
 		for (int j = rect.left/32; j<(rect.left+rect.width)/32; j++){ 
-	  		if (TileMap[i][j]=='P' || TileMap[i][j]=='0'){ 
+	  		if (TileMap[i][j]=='P' || TileMap[i][j]=='0'|| TileMap[i][j]=='w' || TileMap[i][j]=='n'){ 
 	        		if ((dx>0) && (dir==0)) rect.left =  j*32 -  rect.width; 
 				if ((dx<0) && (dir==0)) rect.left =  j*32 + 32;	
 				if ((dy>0) && (dir==1)){
