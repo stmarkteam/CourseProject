@@ -3,24 +3,30 @@
 using namespace sf;
 
 float offsetX=0, offsetY=0;
-int ground = 304;
-const int H = 13;
-const int W = 40;
+
+const int H = 17;
+const int W = 133;
 
 String TileMap[H] = {
 
-"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-"B                                B     B",
-"B                                  0   B",
-"B                                  BB  B",
-"B                                      B",
-"B                          0  BBBB 0 BBB",
-"B0                   0    BBB    B BB  B",
-"BBB                 BBB          B0    B",
-"B      BB      BB                BB    B",
-"B     B        BB          0           B",
-"B 0  B         BB         BB           B",
-"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"0                                                                                                                                  0",
+"0                                                                                                                                  0",
+"0                                                                                                                                  0",
+"0           PPPPP                        P                                                                                         0",
+"0      PPPPP                                                                                                                       0",
+"0                         PPPPP                                                                                                    0",
+"0                                    P                                                                                             0",
+"0r  P             PPPPP                                                                                                            0",
+"0P                                          P                                                                                      0",
+"0 P                                                                                                                                0",
+"0                                                                                                                                  0",
+"0    PPP                                          P                                                                                0",
+"0       P                                              P                                                                           0",
+"PqqqqqPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPqqqqqqqqqqqqqqqqqqqqqPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPqqqqqqqqqqqqqqqqqqqqqqP",
+"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
+"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
 
 }; 
 
@@ -52,11 +58,6 @@ void update(float time){
 	if (currentFrame > 6) currentFrame -=6 ;
 	if (dx>0) sprite.setTextureRect(IntRect(40*int(currentFrame),244,40,50));
 	if (dx<0) sprite.setTextureRect(IntRect(40*int(currentFrame)+40,244,-40,50));
-	if (rect.top > ground){
-		rect.top = ground;
-		dy=0;
-		onGround = true;
-	}
 	sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
 	dx=0;
    }
@@ -64,7 +65,7 @@ void update(float time){
 void Collision(int dir){
 	for (int i = rect.top/32 ; i<(rect.top+rect.height)/32; i++)
 		for (int j = rect.left/32; j<(rect.left+rect.width)/32; j++){ 
-	  		if (TileMap[i][j]=='B'){ 
+	  		if (TileMap[i][j]=='P' || TileMap[i][j]=='0'){ 
 	        		if ((dx>0) && (dir==0)) rect.left =  j*32 -  rect.width; 
 				if ((dx<0) && (dir==0)) rect.left =  j*32 + 32;	
 				if ((dy>0) && (dir==1)){
@@ -79,8 +80,11 @@ void Collision(int dir){
 				}
 			}
 
-		 	if (TileMap[i][j]=='0'){ 
+		 	if (TileMap[i][j]=='r'){ 
 				TileMap[i][j]=' ';
+	                } 	
+			if (TileMap[i][j]=='q'){ 
+				sprite.setColor(Color::Red);
 	                } 	
   		}
 	}
@@ -118,11 +122,13 @@ int main(){
 		if (p.rect.left>300) offsetX = p.rect.left - 300;
         	offsetY = p.rect.top - 200;
 
-		game.clear(Color::White);
+		game.clear(Color::Black);
 		for (int i=0; i<H; i++)
 		for (int j=0; j<W ; j++){ 
-			if (TileMap[i][j]=='B') tile.setTextureRect(IntRect(160,32,32,32));
-			if (TileMap[i][j]=='0') tile.setTextureRect(IntRect(160,256,32,32));
+			if (TileMap[i][j]=='0') tile.setTextureRect(IntRect(160,32,32,32));
+			if (TileMap[i][j]=='P') tile.setTextureRect(IntRect(160,32,32,32));
+			if (TileMap[i][j]=='r') tile.setTextureRect(IntRect(160,256,32,32));
+			if (TileMap[i][j]=='q') tile.setTextureRect(IntRect(160,128,32,32));
 			if (TileMap[i][j]==' ') continue;
 			tile.setPosition(j*32-offsetX,i*32 - offsetY) ;
 		        game.draw(tile);
