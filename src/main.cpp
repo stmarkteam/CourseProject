@@ -29,7 +29,7 @@ String TileMap[H] = {
 "0    P                    w            r                   PPPP                                             Z                      0",
 "0               ww        w           PP         P        PPPPPP                          w          w      Z                      0",
 "0      P        ww        wrrw     P                 P   PPPPPPPP      w    w                              rw  P   r      P       r0",
-"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw         w       w   w      wwwwqqqqqqPPPPPPPPqqqqqqPPq",
+"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw         w       w   w      wwwwqqqqqqPPPPPPPPqqqqqqPPP",
 "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwqqqqqqqwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -111,28 +111,28 @@ int main(){
 	menu1.loadFromFile("1.png");
     	menu2.loadFromFile("2.png");
 
-	Sprite menu1(menu1),menu2(menu2);
+	Sprite m1(menu1),m2(menu2);
 
 	bool Menu=1;
 	int MenuNum=0;
-	menu1.setPosition(200,150);
-	menu2.setPosition(200,200);
+	m1.setPosition(200,150);
+	m2.setPosition(200,200);
 	
 	Sprite tile(m),sBackground(f);
 
 	while(Menu)
 	{	  
-	menu1.setColor(Color::White);
-	menu2.setColor(Color::Red);
+	m1.setColor(Color::White);
+	m2.setColor(Color::White);
 	MenuNum=0;
 	game.draw(sBackground);
 
 	if (IntRect(200,150,300,50).contains(Mouse::getPosition(game))){
-		menu1.setColor(Color::Red);
+		m1.setColor(Color::Red);
 		MenuNum=1;
 	}
        	if (IntRect(200,200,300,50).contains(Mouse::getPosition(game))){
-		menu3.setColor(Color::Red);
+		m2.setColor(Color::Red);
 		MenuNum=2;
 	}
 	if (Mouse::isButtonPressed(Mouse::Left)){
@@ -143,8 +143,8 @@ int main(){
 		}
 
 	     }   
-	game.draw(menu1);
-        game.draw(menu2);
+	game.draw(m1);
+        game.draw(m2);
 	game.display();
 	}
 
