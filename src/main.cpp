@@ -25,11 +25,11 @@ String TileMap[H] = {
 "0                   r                P                                       wqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqw             PP       0",
 "0r                PPPPP                                          P           wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww   P                  0",
 "0P  P                                       P                                                               Z       r  r           0",
-"0                         w  r    P                         PP                            r          r      Z      PPPPPP          0",
+"0                         w  r    P                         PP                            r          r      Z       PPPPP          0",
 "0    P                    w            r                   PPPP                                             Z                      0",
-"0               ww        w           PP         P        PPPPPP                          w          w      Z                     r0",
-"0      P        ww        wrrw     P                 P   PPPPPPPP      w    w                              rw  P   r      P      PP0",
-"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw         w       w   w      wwwwqqqqqqPPPPPPPPqqqqqqqqq",
+"0               ww        w           PP         P        PPPPPP                          w          w      Z                      0",
+"0      P        ww        wrrw     P                 P   PPPPPPPP      w    w                              rw  P   r      P       r0",
+"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw         w       w   w      wwwwqqqqqqPPPPPPPPqqqqqqPPq",
 "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwqqqqqqqwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -51,7 +51,7 @@ float currentFrame;
 
 PLAYER(Texture &image){
 	sprite.setTexture(image);
-	rect = FloatRect(7*32,9*32,40,50);
+	rect = FloatRect(6*32,8*32,40,50);
 	dx=dy=0.1;
 	currentFrame = 0;
    }
@@ -107,7 +107,46 @@ int main(){
 	m.loadFromFile("wq.png");
 	f.loadFromFile("fon.png");
 
+	Texture menu1,menu2;
+	menu1.loadFromFile("1.png");
+    	menu2.loadFromFile("2.png");
+
+	Sprite menu1(menu1),menu2(menu2);
+
+	bool Menu=1;
+	int MenuNum=0;
+	menu1.setPosition(200,150);
+	menu2.setPosition(200,200);
+	
 	Sprite tile(m),sBackground(f);
+
+	while(Menu)
+	{	  
+	menu1.setColor(Color::White);
+	menu2.setColor(Color::Red);
+	MenuNum=0;
+	game.draw(sBackground);
+
+	if (IntRect(200,150,300,50).contains(Mouse::getPosition(game))){
+		menu1.setColor(Color::Red);
+		MenuNum=1;
+	}
+       	if (IntRect(200,200,300,50).contains(Mouse::getPosition(game))){
+		menu3.setColor(Color::Red);
+		MenuNum=2;
+	}
+	if (Mouse::isButtonPressed(Mouse::Left)){
+		if (MenuNum==1) Menu=false;
+		if (MenuNum==2) {
+			game.close();
+			Menu=false;
+		}
+
+	     }   
+	game.draw(menu1);
+        game.draw(menu2);
+	game.display();
+	}
 
 	float currentFrame = 0;
 	PLAYER p(t);
@@ -131,7 +170,7 @@ int main(){
 		}
 		p.update(time);
 
-		if (p.rect.left>300) offsetX = p.rect.left - 300;
+		if ((p.rect.left>300) && (p.rect.left<3930)) offsetX = p.rect.left - 300;
         	offsetY = p.rect.top - 200;
 
 		game.draw(sBackground);
