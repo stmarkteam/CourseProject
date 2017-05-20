@@ -4,20 +4,23 @@ using namespace sf;
 
 float offsetX=0, offsetY=0;
 
-const int H = 19;
+const int H = 30;
 const int W = 133;
 
 String TileMap[H] = {
-
-
-"                                                                                                                                    ",
-"                                        r                                  000000000000000000000000000000000000                   r ",
-"0000000000000000000000000000000000000000ZZ0000000000000000000000000000000000                                  0000000000000000000ZZ0",
-"0                                                     PP                                                            PPPP           0",
-"0r                    r                              PPr                                                               PP          0",
-"0ww                                                 PP                                                                 PP         P0",
-"0          r   PPP                      P          PP       PPPP     Pnnn       P              P                     r P         P 0",
-"0        PPPPP              r                       PP r                                 P         P    r           PPP      PP    0",
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+"000000000000000000000000000000000000000ZrZ0000000000000000000000000000000000                                  0000000000000000000Zr0",
+"000000000000000000000000000000000000000ZZZ0000000000000000000000000000000000                                  0000000000000000000ZZ0",
+"0                                                    PP                                                                P           0",
+"0r                    r                             PP r                                                               P           0",
+"0ww                                                PP                                                                  P          P0",
+"0          r   PPP                      P          PP       PPPP     Pnnn       P             P                      r P         P 0",
+"0        PPPPP              r                       PP r                                 P         P    r           PPPP     PP    0",
 "0     P                   PPPPP                      PPPP          P      P  P      P                   P   P                      0",
 "0                   r                P                                       wqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqw             PP       0",
 "0r                PPPPP                                          P           wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww   P                  0",
@@ -25,10 +28,15 @@ String TileMap[H] = {
 "0                         w  r    P                         PP                            r          r      Z      PPPPPP          0",
 "0    P                    w            r                   PPPP                                             Z                      0",
 "0               ww        w           PP         P        PPPPPP                          w          w      Z                     r0",
-"0      P        ww        wrrw     P                 P   PPPPPPPP          ww                            w rw  P   r      P      PP0",
-"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw                            wwwwqqqqqqPPPPPPPPqqqqqqqqq",
+"0      P        ww        wrrw     P                 P   PPPPPPPP      w    w                              rw  P   r      P      PP0",
+"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw         w       w   w      wwwwqqqqqqPPPPPPPPqqqqqqqqq",
 "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwqqqqqqqwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
-"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 }; 
 
 class PLAYER {
@@ -66,7 +74,7 @@ void update(float time){
 void Collision(int dir){
 	for (int i = rect.top/32 ; i<(rect.top+rect.height)/32; i++)
 		for (int j = rect.left/32; j<(rect.left+rect.width)/32; j++){ 
-	  		if (TileMap[i][j]=='P' || TileMap[i][j]=='0'|| TileMap[i][j]=='w' || TileMap[i][j]=='n'){ 
+	  		if (TileMap[i][j]=='P' || TileMap[i][j]=='0'|| TileMap[i][j]=='w' || TileMap[i][j]=='n' || TileMap[i][j]=='a') 					{ 
 	        		if ((dx>0) && (dir==0)) rect.left =  j*32 -  rect.width; 
 				if ((dx<0) && (dir==0)) rect.left =  j*32 + 32;	
 				if ((dy>0) && (dir==1)){
@@ -81,7 +89,7 @@ void Collision(int dir){
 				}
 			}
 
-		 	if (TileMap[i][j]=='r'){ 
+		 	if (TileMap[i][j]=='r' || TileMap[i][j]=='Z'){ 
 				TileMap[i][j]=' ';
 	                } 	
 			if (TileMap[i][j]=='q'){ 
@@ -94,10 +102,13 @@ void Collision(int dir){
 int main(){
 	RenderWindow game(VideoMode(600, 400), "Game");
 	
-	Texture t, m;
+	Texture t, m, f;
 	t.loadFromFile("fang.png");
 	m.loadFromFile("wq.png");
-	Sprite tile(m);
+	f.loadFromFile("fon.png");
+
+	Sprite tile(m),sBackground(f);
+
 	float currentFrame = 0;
 	PLAYER p(t);
 	Clock clock;
@@ -110,9 +121,9 @@ int main(){
 			if (event.type == Event::Closed)
 				game.close();
 		}
-		if (Keyboard::isKeyPressed(Keyboard::Left))p.dx = -0.1;
-		if (Keyboard::isKeyPressed(Keyboard::Right))p.dx = 0.1;
-		if (Keyboard::isKeyPressed(Keyboard::Up)){ 
+			if (Keyboard::isKeyPressed(Keyboard::Left))p.dx = -0.1;
+			if (Keyboard::isKeyPressed(Keyboard::Right))p.dx = 0.1;
+			if (Keyboard::isKeyPressed(Keyboard::Up)){ 
 			if (p.onGround){
 				p.dy=-0.35;
 				p.onGround=false;
@@ -123,13 +134,15 @@ int main(){
 		if (p.rect.left>300) offsetX = p.rect.left - 300;
         	offsetY = p.rect.top - 200;
 
-		game.clear(Color::Black);
+		game.draw(sBackground);
 		for (int i=0; i<H; i++)
 		for (int j=0; j<W ; j++){ 
-			if (TileMap[i][j]=='0') tile.setTextureRect(IntRect(160,32,32,32));
-			if (TileMap[i][j]=='P') tile.setTextureRect(IntRect(160,32,32,32));
+			if (TileMap[i][j]=='0') tile.setTextureRect(IntRect(416,128,32,32));
+			if (TileMap[i][j]=='P') tile.setTextureRect(IntRect(416,128,32,32));
+			if (TileMap[i][j]=='w') tile.setTextureRect(IntRect(416,128,32,32));
 			if (TileMap[i][j]=='r') tile.setTextureRect(IntRect(160,256,32,32));
 			if (TileMap[i][j]=='q') tile.setTextureRect(IntRect(160,128,32,32));
+			if (TileMap[i][j]=='a') tile.setTextureRect(IntRect(160,128,32,32));
 			if (TileMap[i][j]==' ') continue;
 			tile.setPosition(j*32-offsetX,i*32 - offsetY) ;
 		        game.draw(tile);
