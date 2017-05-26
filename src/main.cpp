@@ -1,43 +1,7 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-
-using namespace sf;
+#include "function.h"
+#include "map.h"
 
 float offsetX=0, offsetY=0;
-
-const int H = 28;
-const int W = 133;
-
-String TileMap[H] = {
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-"000000000000000000000000000000000000000ZrZ0000000000000000000000000000000000                                  0000000000000000000Zr0",
-"000000000000000000000000000000000000000ZZZ0000000000000000000000000000000000                                  0000000000000000000ZZ0",
-"0                                                    PP                                       r                        P           0",
-"0r                    r                             PP r                                                               P           0",
-"0ww                                                PP                                                                  P          P0",
-"0          r   PPP                      P          PP       PPPP     Pnnn       P             P                      r P         P 0",
-"0        PPPPP              r                       PP r                            r    P         P    r           PPPP     PP    0",
-"0     P                   PPPPP                      PPPP          P      P  P      P                   P   P                      0",
-"0                   r                P                                       wqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqw             PP       0",
-"0r                PPPPP                                          P           wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww   P                  0",
-"0P  P                                       P                                                               Z       r   r          0",
-"0                         w  r    P                         PP                            r          r      Z       PPPPP          0",
-"0    P                    w            r                   PPPP                                             Z                      0",
-"0               ww        w           PP         P        PPPPPP                          w          w      Z                      0",
-"0      P    w   ww   w    wrrw     P                 P   PPPPPPPP      w    w                              rw  P   P  r   P       r0",
-"qqqqqqqwwwwwwqqqwwqqqwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwwwwwqqqqw         w       w   w      wwwwqqqqqqPPPPPPPPqqqqqqPPP",
-"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwwwwwwwwwwwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
-"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-};
 
 class PLAYER {
 public:
@@ -96,11 +60,11 @@ public:
 			}
 			if (TileMap[i][j]=='r'){
 				n = n-1;
-				TileMap[i][j] = ' ';
+				TileMap[i][j] = '1';
 				std::cout << n << '\n';
 				if (n==0) return 7;
 	    }
-			if (TileMap[i][j]=='Z')TileMap[i][j]=' ';
+			if (TileMap[i][j]=='Z')TileMap[i][j]='2';
 			if (TileMap[i][j]=='q'){
 				return 5;
 				break;
@@ -112,9 +76,9 @@ public:
 };
 
 int main(){
-	int n = 25;
+	int n = 25, z;
 	int flagRun = 1;
-	RenderWindow game(VideoMode(600, 400), "Game");
+	RenderWindow game(VideoMode(800, 500), "Game");
 	Font font;
   	font.loadFromFile("sansation.ttf");
 
@@ -130,36 +94,29 @@ int main(){
 	Text dead;
    	dead.setFont(font);
   	dead.setCharacterSize(50);
-   	dead.setPosition(200.f, 150.f);
+   	dead.setPosition(290.f, 200.f);
    	dead.setColor(Color::White);
    	dead.setString("You dead!");
-
-	Text start;
-    start.setFont(font);
-  	start.setCharacterSize(20);
-  	start.setPosition(160.f, 300.f);
-		start.setColor(Color::White);
-  	start.setString("<press space to start the game>");
 
 	Sprite tile(m),sBackground(f);
 	Sprite m1(menu1),m2(menu2);
 	int flagEnd = 0;
 	label:
 	bool Menu = true, life = true;
-	int MenuNum=0, z;
-	m1.setPosition(200,150);
-	m2.setPosition(200,200);
+	m1.setPosition(310,200);
+	m2.setPosition(310,250);
 
 	while(Menu){
+		int MenuNum=0;
 		m1.setColor(Color::White);
 		m2.setColor(Color::White);
 		game.draw(sBackground);
 
-		if (IntRect(200,150,300,50).contains(Mouse::getPosition(game))){
+		if (IntRect(310,200,180,50).contains(Mouse::getPosition(game))){
 			m1.setColor(Color::Red);
 			MenuNum = 1;
 		}
-    if (IntRect(200,200,300,50).contains(Mouse::getPosition(game))){
+    if (IntRect(310,250,110,50).contains(Mouse::getPosition(game))){
 			m2.setColor(Color::Red);
 			MenuNum = 2;
 		}
@@ -174,15 +131,15 @@ int main(){
 			}
 		}
 		if(flagEnd == 1) {
-			dead.setPosition(200.f, 80.f);
 			game.draw(dead);
-			flagEnd = 0;
+			game.display();
+			for (long long i = 0; i < 1000000000; i++);
 		} else if (flagEnd == 2){
-			dead.setPosition(200.f, 80.f);
-			dead.setString("You Win!");
 			game.draw(dead);
-			flagEnd = 0;
+			game.display();
+			for (long long i = 0; i < 1000000000; i++);
 		}
+		flagEnd = 0;
 		game.draw(m1);
   	game.draw(m2);
 		game.display();
@@ -224,7 +181,7 @@ int main(){
 					text = 2;
 				}
 				if ((p.rect.left>300) && (p.rect.left<3930)) offsetX = p.rect.left - 300;
-        offsetY = p.rect.top - 200;
+        offsetY = p.rect.top - 250;
 
 				if (life == true){
 					game.draw(sBackground);
@@ -236,7 +193,7 @@ int main(){
 						if (TileMap[i][j]=='r') tile.setTextureRect(IntRect(160,256,32,32));
 						if (TileMap[i][j]=='q') tile.setTextureRect(IntRect(160,128,32,32));
 						if (TileMap[i][j]=='a') tile.setTextureRect(IntRect(160,128,32,32));
-						if (TileMap[i][j]==' ') continue;
+						if (TileMap[i][j]==' ' | TileMap[i][j]=='1' | TileMap[i][j]=='2') continue;
 						tile.setPosition(j*32-offsetX,i*32 - offsetY) ;
 		        game.draw(tile);
 	       	 	}
@@ -245,16 +202,28 @@ int main(){
 				else {
 					if (text == 1) {
 						game.draw(sBackground);
-						dead.setString("You Win!");
-						game.draw(dead);
-						game.draw(start);
+						dead.setString("You win!");
 						flagEnd = 2;
+						n = 25;
+						for (int i=0; i<H; i++)
+						for (int j=0; j<W ; j++){
+							if (TileMap[i][j]=='1') TileMap[i][j] ='r';
+							if (TileMap[i][j]=='2') TileMap[i][j] ='Z';
+							tile.setPosition(j*32-offsetX,i*32 - offsetY) ;
+						}
+						goto label;
 					}
 					if (text == 2) {
 						game.draw(sBackground);
-						game.draw(dead);
-						game.draw(start);
+						dead.setString("You dead!");
 						flagEnd = 1;
+						n = 25;
+						for (int i=0; i<H; i++)
+						for (int j=0; j<W ; j++){
+							if (TileMap[i][j]=='1') TileMap[i][j] ='r';
+							if (TileMap[i][j]=='2') TileMap[i][j] ='Z';
+							tile.setPosition(j*32-offsetX,i*32 - offsetY) ;
+						}
 						goto label;
 					}
 				}
