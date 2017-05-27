@@ -77,8 +77,9 @@ public:
 
 int main(){
 	int n = 25, z;
-	int flagRun = 1;
+	int flagEnd = 0;
 	RenderWindow game(VideoMode(800, 500), "Game");
+	
 	Font font;
   	font.loadFromFile("sansation.ttf");
 
@@ -100,7 +101,7 @@ int main(){
 
 	Sprite tile(m),sBackground(f);
 	Sprite m1(menu1),m2(menu2);
-	int flagEnd = 0;
+
 	label:
 	bool Menu = true, life = true;
 	m1.setPosition(310,200);
