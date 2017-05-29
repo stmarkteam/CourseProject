@@ -1,11 +1,11 @@
 CC = g++
-MO = ./build/main.o
+MO = ./build/src/main.o
 MC = ./src/main.cpp
 QQ = -lsfml-graphics -lsfml-window -lsfml-system
 MT = ./test/main_test.cpp
 FT = ./test/function_test.cpp
-MTO = ./build/main_test.o
-FTO = ./build/function_test.o
+MTO = ./build/test/main_test.o
+FTO = ./build/test/function_test.o
 
 all: game test
 
@@ -17,10 +17,11 @@ test: $(MTO) $(FTO)
 	$(CC) $(MTO) $(FTO) -o ./bin/test $(QQ)
 
 $(MO): $(MC)
-	mkdir -p build
+	mkdir -p build/src
 	$(CC) -c $(MC) -o $(MO) $(QQ)
 
 $(MTO): $(MT)
+	mkdir -p build/test
 	$(CC) -c $(MT) -o $(MTO) $(QQ)
 
 $(FTO): $(FT)
