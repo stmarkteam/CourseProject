@@ -1,0 +1,3 @@
+language:C++
+complier:g++
+script:make
